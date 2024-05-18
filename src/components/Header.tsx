@@ -1,16 +1,25 @@
-import { Button, AppBar, Toolbar, Typography, Box } from "@mui/material";
+import {
+  Button,
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  IconButton,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { WithFirebaseApiProps, withFirebaseApi } from "../Firebase";
 import { useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 
 const HeaderBase = (props: WithFirebaseApiProps) => {
   const currentUserId = useAppSelector((state: RootState) => state.user.userId);
+
   const loginWithGoogleButton = (
     <Button
       color="inherit"
       onClick={props.firebaseApi.signInWithGoogleRedirect}
     >
-      Login with Google
+      구글 로그인
     </Button>
   );
   const logoutButton = (
@@ -19,13 +28,21 @@ const HeaderBase = (props: WithFirebaseApiProps) => {
     </Button>
   );
   const button = currentUserId == null ? loginWithGoogleButton : logoutButton;
+
   return (
     <AppBar position="static">
       <Toolbar sx={{ width: "100%", maxWidth: 720, margin: "auto" }}>
-        <Typography variant="h6" component="div">
-          <Button color="inherit">Log In App</Button>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Log In App
         </Typography>
-        <Box sx={{ flexGrow: 1 }} />
         {button}
       </Toolbar>
     </AppBar>
